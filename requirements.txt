@@ -1,0 +1,6 @@
+Flask
+opencv-contrib-python
+numpy
+pandas
+openpyxl
+Werkzeug

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Students</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside>
+
+        <h2>◉ Attendify</h2>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/students">Students</a>
+        <a href="/attendance">Attendance</a>
+        <a href="/reports">Reports</a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </aside>
+
+    <main>
+
+        <div class="page-header">
+
+            <div>
+                <h1>Students</h1>
+                <p>Manage registered students</p>
+            </div>
+
+            <a href="/students/add"
+               class="button">
+                + Add Student
+            </a>
+
+        </div>
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Roll Number</th>
+                        <th>Course</th>
+                        <th>Semester</th>
+                        <th>Section</th>
+                        <th>Face</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for student in students %}
+
+                    <tr>
+
+                        <td>
+                            {{ student.name }}
+                        </td>
+
+                        <td>
+                            {{ student.roll_number }}
+                        </td>
+
+                        <td>
+                            {{ student.course }}
+                        </td>
+
+                        <td>
+                            {{ student.semester }}
+                        </td>
+
+                        <td>
+                            {{ student.section }}
+                        </td>
+
+                        <td>
+
+                            {% if student.face_id %}
+
+                                <span class="badge present">
+                                    Registered
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge absent">
+                                    Not Registered
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

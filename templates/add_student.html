@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Add Student</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside>
+
+        <h2>◉ Attendify</h2>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/students">Students</a>
+        <a href="/attendance">Attendance</a>
+        <a href="/reports">Reports</a>
+
+    </aside>
+
+    <main>
+
+        <div class="form-card">
+
+            <h1>Add Student</h1>
+
+            {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+            <form method="POST">
+
+                <label>Student Name</label>
+
+                <input
+                    name="name"
+                    required
+                >
+
+                <label>Roll Number</label>
+
+                <input
+                    name="roll_number"
+                    required
+                >
+
+                <label>Course</label>
+
+                <input
+                    name="course"
+                    placeholder="B.Tech CSE"
+                >
+
+                <label>Semester</label>
+
+                <input
+                    name="semester"
+                    placeholder="3"
+                >
+
+                <label>Section</label>
+
+                <input
+                    name="section"
+                    placeholder="A"
+                >
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                >
+
+                <label>Phone</label>
+
+                <input
+                    name="phone"
+                >
+
+                <button type="submit">
+                    Register Student
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+attendify.db
+attendance_report.xlsx
+
+uploads/faces/
+uploads/*.jpg
+uploads/*.png
+
+.DS_Store
+.env

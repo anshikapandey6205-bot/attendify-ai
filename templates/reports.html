@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Reports</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside>
+
+        <h2>◉ Attendify</h2>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/students">Students</a>
+        <a href="/attendance">Attendance</a>
+        <a href="/reports">Reports</a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </aside>
+
+    <main>
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Attendance Reports</h1>
+
+                <p>
+                    View and export attendance records.
+                </p>
+
+            </div>
+
+            <a
+                href="/export"
+                class="button"
+            >
+                Export Excel
+            </a>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Roll Number</th>
+                        <th>Course</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for record in records %}
+
+                    <tr>
+
+                        <td>
+                            {{ record.name }}
+                        </td>
+
+                        <td>
+                            {{ record.roll_number }}
+                        </td>
+
+                        <td>
+                            {{ record.course }}
+                        </td>
+
+                        <td>
+                            {{ record.date }}
+                        </td>
+
+                        <td>
+                            {{ record.time }}
+                        </td>
+
+                        <td>
+                            {{ record.status }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Face Attendance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside>
+
+        <h2>◉ Attendify</h2>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/students">Students</a>
+        <a href="/attendance">Attendance</a>
+        <a href="/reports">Reports</a>
+
+    </aside>
+
+    <main>
+
+        {% if enrollment %}
+
+            <h1>Register Face</h1>
+
+            <p>
+                Position the student's face inside the camera.
+            </p>
+
+            <div class="camera-card">
+
+                <video
+                    id="camera"
+                    autoplay
+                    playsinline>
+                </video>
+
+                <button onclick="captureEnrollment()">
+                    Capture Face
+                </button>
+
+            </div>
+
+            <div id="message"></div>
+
+        {% else %}
+
+            <h1>Face Recognition Attendance</h1>
+
+            <p>
+                Look at the camera to mark attendance.
+            </p>
+
+            <div class="camera-card">
+
+                <video
+                    id="camera"
+                    autoplay
+                    playsinline>
+                </video>
+
+                <button onclick="recognizeFace()">
+                    Scan Face
+                </button>
+
+            </div>
+
+            <div id="result"></div>
+
+            <h2>Recent Attendance</h2>
+
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Name</th>
+                            <th>Roll</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for record in records %}
+
+                        <tr>
+
+                            <td>
+                                {{ record.name }}
+                            </td>
+
+                            <td>
+                                {{ record.roll_number }}
+                            </td>
+
+                            <td>
+                                {{ record.date }}
+                            </td>
+
+                            <td>
+                                {{ record.time }}
+                            </td>
+
+                            <td>
+                                {{ record.status }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+</div>
+
+
+<script>
+
+const video = document.getElementById("camera");
+
+navigator.mediaDevices
+    .getUserMedia({
+        video: true,
+        audio: false
+    })
+    .then(stream => {
+
+        video.srcObject = stream;
+
+    })
+    .catch(error => {
+
+        alert(
+            "Camera permission is required."
+        );
+
+    });
+
+
+function captureFrame() {
+
+    const canvas =
+        document.createElement("canvas");
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const context =
+        canvas.getContext("2d");
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    return new Promise(resolve => {
+
+        canvas.toBlob(
+            blob => resolve(blob),
+            "image/jpeg"
+        );
+
+    });
+}
+
+
+async function captureEnrollment() {
+
+    const blob =
+        await captureFrame();
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "frame",
+        blob,
+        "face.jpg"
+    );
+
+    const response =
+        await fetch(
+            "/capture-face/{{ student_id }}",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+    const data =
+        await response.json();
+
+    document.getElementById(
+        "message"
+    ).innerText = data.message;
+
+}
+
+
+async function recognizeFace() {
+
+    const blob =
+        await captureFrame();
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "frame",
+        blob,
+        "frame.jpg"
+    );
+
+    const response =
+        await fetch(
+            "/recognize",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+    const data =
+        await response.json();
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+    if (data.success) {
+
+        result.innerHTML = `
+            <div class="success-card">
+
+                <h2>✓ ${data.message}</h2>
+
+                <p>
+                    Student:
+                    <strong>
+                        ${data.name}
+                    </strong>
+                </p>
+
+                ${
+                    data.roll_number
+                    ? `
+                    <p>
+                        Roll Number:
+                        ${data.roll_number}
+                    </p>
+                    `
+                    : ""
+                }
+
+                ${
+                    data.time
+                    ? `
+                    <p>
+                        Time:
+                        ${data.time}
+                    </p>
+                    `
+                    : ""
+                }
+
+            </div>
+        `;
+
+    } else {
+
+        result.innerHTML = `
+            <div class="error">
+                ${data.message}
+            </div>
+        `;
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

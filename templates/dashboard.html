@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard - Attendify AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside>
+
+        <h2>◉ Attendify</h2>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/students">Students</a>
+        <a href="/attendance">Attendance</a>
+        <a href="/reports">Reports</a>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </aside>
+
+    <main>
+
+        <div class="topbar">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back, Admin</p>
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="card">
+                <h3>Total Students</h3>
+                <strong>{{ total_students }}</strong>
+            </div>
+
+            <div class="card">
+                <h3>Present Today</h3>
+                <strong>{{ present_today }}</strong>
+            </div>
+
+            <div class="card">
+                <h3>Absent Today</h3>
+                <strong>{{ absent_today }}</strong>
+            </div>
+
+            <div class="card">
+                <h3>Attendance</h3>
+                <strong>{{ percentage }}%</strong>
+            </div>
+
+        </div>
+
+        <div class="dashboard-actions">
+
+            <a href="/students/add"
+               class="action-card">
+                ➕
+                <span>Add Student</span>
+            </a>
+
+            <a href="/attendance"
+               class="action-card">
+                📷
+                <span>Start Attendance</span>
+            </a>
+
+            <a href="/reports"
+               class="action-card">
+                📊
+                <span>View Reports</span>
+            </a>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
