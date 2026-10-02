@@ -34,6 +34,6 @@ Your screenshot shows `.gitignore` is present, which is good. Make sure it exclu
 .venv/
 venv/
 __pycache__/
-*.pyc
+.pyc
 .env
 uploads/
