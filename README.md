@@ -26,7 +26,7 @@ face recognition.
 pip install -r requirements.txt
 python app.pyThen commit the README.
 
-**2. Important: check `.gitignore`**
+2. Important: check `.gitignore`
 
 Your screenshot shows `.gitignore` is present, which is good. Make sure it excludes things such as:
 
